@@ -1,0 +1,112 @@
+#include <iostream>
+#include <fstream>
+#include <string>
+
+using namespace std;
+
+
+void createFile();
+void readFile();
+void appendToFile();
+
+int main() {
+    int choice;
+
+    do {
+
+        cout << "Menu:\n";
+        cout << "1. Create\n";
+        cout << "2. Read\n";
+        cout << "3. Append\n";
+        cout << "4. Exit\n";
+        cout << "Enter your choice (1-4): ";
+        cin >> choice;
+
+        switch (choice) {
+            case 1:
+                createFile();
+                break;
+            case 2:
+                readFile();
+                break;
+            case 3:
+                appendToFile();
+                break;
+            case 4:
+                cout << "Exiting program. Goodbye!\n";
+                break;
+            default:
+                cout << "Invalid choice. Please enter a number between 1 and 4.\n";
+        }
+
+    } while (choice != 4);
+
+    return 0;
+}
+
+void createFile() {
+    ofstream outputFile("mytext.txt");
+
+    if (outputFile.is_open()) {
+        string name, course, email, contact;
+
+        cout << "Enter name: ";
+        cin.ignore();
+        getline(cin, name);
+
+        cout << "Enter course: ";
+        getline(cin, course);
+
+        cout << "Enter email: ";
+        getline(cin, email);
+
+        cout << "Enter contact number: ";
+        getline(cin, contact);
+
+        outputFile << "Name: " << name << "\n";
+        outputFile << "Course: " << course << "\n";
+        outputFile << "Email: " << email << "\n";
+        outputFile << "Contact Number: " << contact << "\n";
+
+        cout << "File 'mytext.txt' created successfully.\n";
+        outputFile.close();
+    } else {
+        cout << "Error creating file.\n";
+    }
+}
+
+void readFile() {
+    ifstream inputFile("mytext.txt");
+
+    if (inputFile.is_open()) {
+        string line;
+        cout << "Contents of 'mytext.txt':\n";
+
+        while (getline(inputFile, line)) {
+            cout << line << "\n";
+        }
+
+        inputFile.close();
+    } else {
+        cout << "File 'mytext.txt' not found. Please create the file first.\n";
+    }
+}
+
+void appendToFile() {
+    ofstream outputFile("mytext.txt", ios::app);
+
+    if (outputFile.is_open()) {
+        string additionalInfo;
+
+        cout << "Enter additional information to append: ";
+        cin.ignore();
+        getline(cin, additionalInfo);
+
+        outputFile << additionalInfo << "\n";
+
+        cout << "Information appended to 'mytext.txt' successfully.\n";
+        outputFile.close();
+    } else {
+        cout << "Error opening file for appending.\n";
+    }
+}
